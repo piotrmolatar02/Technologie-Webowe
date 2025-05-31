@@ -2,16 +2,15 @@ import Controller from '../interfaces/controller.interface';
 import { Request, Response, NextFunction, Router } from 'express';
 import { checkIdParam } from '../middlewares/deviceIdParam.middleware';
 import DataService from '../modules/services/data.service';
+import Joi from 'joi';
 
 let testArr = [4,5,6,3,5,3,7,5,13,5,6,4,3,6,3,6];
 
 class DataController implements Controller {
    public path = '/api/data';
    public router = Router();
-   private dataService: DataService;
 
-   constructor() {
-    this.dataService = new DataService();
+   constructor(private dataService: DataService) {
     this.initializeRoutes();
    }
 
@@ -74,6 +73,18 @@ class DataController implements Controller {
     private addData = async (request: Request, response: Response, next: NextFunction) => {
     const { air } = request.body;
     const { id } = request.params;
+
+    const schema = Joi.object({
+   air: Joi.array()
+       .items(
+           Joi.object({
+               id: Joi.number().integer().positive().required(),
+               value: Joi.number().positive().required()
+           })
+       )
+       .unique((a, b) => a.id === b.id),
+   deviceId: Joi.number().integer().positive().valid(parseInt(id, 10)).required()
+});
 
     if (!Array.isArray(air) || air.length < 3) {
         return response.status(400).json({ message: 'Dane muszą zawierać temperaturę, ciśnienie i wilgotność' });
@@ -151,6 +162,7 @@ private addDataBulk = async (req: Request, res: Response, next: NextFunction) =>
     res.status(500).json({ error: error.message });
   }
 }
+
 
 }
 export default DataController;
