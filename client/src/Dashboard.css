@@ -1,0 +1,90 @@
+/* Główne tło dashboardu */
+.dashboard-root {
+  background-color: #0f0f0f;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  color: #ffffff;
+}
+
+/* Kafelki urządzeń */
+.device-tile {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  min-width: 200px;
+  max-width: 220px;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.device-tile:hover {
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
+.device-alert {
+  border: 2px solid red;
+}
+
+/* Siatka kafelków */
+.device-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 40px 60px;
+}
+
+/* Wykres i kafelek szczegółowy */
+.device-details-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px 20px;
+  align-items: flex-start;
+}
+
+/* Styl wykresu */
+.chart-container {
+  flex-grow: 1;
+  background-color: #1e1e1e;
+  border: 1px solid #00bcd4;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Przycisk usuwania */
+.delete-button {
+  margin-top: 20px;
+  background-color: #d32f2f;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #b71c1c;
+}
+
+/* Górny przycisk: Wykres zbiorczy */
+.global-chart-button {
+  margin: 20px 40px 0;
+  align-self: flex-end;
+}
+
+/* Przycisk usuwania pod szczegółami */
+.delete-button {
+  margin-top: 20px;
+  background-color: #d32f2f;
+  color: white;
+  padding: 10px 18px;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+.delete-button:hover {
+  background-color: #b71c1c;
+}

@@ -1,14 +1,11 @@
 import bcrypt from 'bcrypt';
 import PasswordModel from '../schemas/password.schema';
 
-
 class PasswordService {
    async authorize(userId: string, plainPassword: string): Promise<boolean> {
        try {
            const record = await PasswordModel.findOne({ userId });
            if (!record) return false;
-
-
            const isMatch = await bcrypt.compare(plainPassword, record.password);
            return isMatch;
        } catch (error) {
@@ -16,7 +13,6 @@ class PasswordService {
            return false;
        }
    }
-
 
    async hashPassword(password: string): Promise<string> {
        try {
@@ -28,12 +24,9 @@ class PasswordService {
        }
    }
 
-
    async createOrUpdate({ userId, password }: { userId: string; password: string }): Promise<void> {
        try {
            const existing = await PasswordModel.findOne({ userId });
-
-
            if (existing) {
                existing.password = password;
                await existing.save();
@@ -46,6 +39,5 @@ class PasswordService {
        }
    }
 }
-
 
 export default PasswordService;

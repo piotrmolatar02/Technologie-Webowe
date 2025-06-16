@@ -5,7 +5,7 @@ import { IUser } from "../modules/models/user.model";
 
 
 export const admin = (request: Request, response: Response, next: NextFunction) => {
-   let token = request.headers['x-access-token'] || request.headers['authorization'];
+   let token = request.headers['x-access-token'] || request.headers['x-auth-token'] || request.headers['authorization'];
    if (token && typeof token === 'string') {
        if (token.startsWith('Bearer ')) {
            token = token.slice(7, token.length);

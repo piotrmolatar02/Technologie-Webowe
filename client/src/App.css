@@ -1,11 +1,180 @@
+/* Ogólne tło i centrowanie dla login/rejestracja */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: white;
+}
+
+/* Styl formularza */
+.auth-form {
+  background-color: #1e1e1e;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Upewnij się że inputy są jasne i kontrastowe */
+.MuiInputBase-root {
+  background-color: #2b2b2b;
+  color: white;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: #666;
+}
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #2196f3;
+}
+
+.MuiInputLabel-root {
+  color: #ccc;
+}
+
+.Mui-focused .MuiInputLabel-root {
+  color: #2196f3;
+}
+
+.MuiButton-containedPrimary {
+  background-color: #2196f3;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #1769aa;
+}
+
+/* Styl do błędów */
+.MuiAlert-root {
+  background-color: #ff5555;
+  color: white;
+}
+
+/* Pozostałe style ogólne */
 .value {
-   margin-left: 15px;
+  margin-left: 15px;
 }
 
 .logo {
-   background: url("assets/ki.jpg");
-   background-size: cover;
-   width: 4vh;
-   height: 4vh;
-   margin: 3px;
+  background: url("assets/ki.jpg");
+  background-size: cover;
+  width: 4vh;
+  height: 4vh;
+  margin: 3px;
+}
+
+.MuiChartsLegend-root text {
+  fill: white !important;
+}
+
+/* Stylizacja panelu admina */
+.admin-container {
+  background-color: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+  padding: 32px;
+}
+
+/* Styl nagłówka */
+.admin-container h4, .admin-container h6 {
+  color: #e0e0e0;
+}
+
+/* Tabela użytkowników */
+.MuiTableContainer-root {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+}
+
+.MuiTableCell-root {
+  background-color: #1e1e1e;
+  color: white;
+  border-bottom: 1px solid #444;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background-color: #222;
+  font-weight: bold;
+  color: #90caf9;
+}
+
+/* Pola tekstowe */
+.admin-container .MuiInputBase-root {
+  background-color: #2b2b2b;
+  color: white;
+}
+
+.admin-container .MuiOutlinedInput-notchedOutline {
+  border-color: #555;
+}
+
+.admin-container .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #2196f3;
+}
+
+.admin-container .MuiInputLabel-root {
+  color: #bbb;
+}
+
+.admin-container .Mui-focused .MuiInputLabel-root {
+  color: #2196f3;
+}
+
+/* Przycisk "Cofnij" */
+.back-button {
+  margin-bottom: 16px;
+  border-color: #2196f3;
+  color: #2196f3;
+}
+
+.back-button:hover {
+  background-color: rgba(33, 150, 243, 0.1);
+}
+
+/* Przycisk dodawania danych */
+.MuiButton-containedPrimary {
+  background-color: #2196f3;
+  color: white;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #1769aa;
+}
+
+/* Przyciski "Zmień rolę" / "Usuń" */
+.MuiButton-outlinedInfo {
+  border-color: #2196f3;
+  color: #2196f3;
+}
+
+.MuiButton-outlinedInfo:hover {
+  background-color: rgba(33, 150, 243, 0.1);
+}
+
+.MuiButton-outlinedError {
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.MuiButton-outlinedError:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Styl dialogu zmiany roli */
+.MuiDialog-paper {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.MuiSelect-select {
+  background-color: #2b2b2b;
+  color: white;
+}
+
+.MuiTableBody-root .MuiTableCell-root {
+  color: #ddd !important;
 }

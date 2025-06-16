@@ -1,51 +1,70 @@
-import { useState } from 'react';
-import Navbar from './components/Navbar';
-import DeviceStatus from './components/DeviceStatus';
-import Charts from './components/Charts';
-import { Box, Grid } from '@mui/material';
+import "./App.css";
+import { isExpired } from "react-jwt";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import LoginForm from "./components/Login";
+import Dashboard from "./Dashboard";
+import SignUpForm from "./components/SignUpForm"; 
+import { useState, useEffect } from "react";
+import AdminPanel from "./components/AdminPanel";
+import { jwtDecode } from "jwt-decode";
 
-const App = () => {
-  const [selectedDeviceId, setSelectedDeviceId] = useState<number | null>(null);
+function App() {
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const devices = [
-    { id: 0, data: null },
-    { id: 1, data: null },
-    { id: 2, data: null },
-    { id: 3, data: { temperature: 23.5, pressure: 1013.25, humidity: 45 } },
-    { id: 4, data: { temperature: 24.5, pressure: 990.4, humidity: 40.3 } },
-  ];
+  // Uaktualniaj token przy każdej zmianie w localStorage (np. po logowaniu/wylogowaniu)
+  useEffect(() => {
+    const onStorage = () => setToken(localStorage.getItem("token"));
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
-  const selectedDevice = devices.find(d => d.id === selectedDeviceId);
+  // Dodatkowa synchronizacja (na wszelki wypadek)
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   return (
-    <>
-      <Navbar />
-      <Box sx={{ display: 'flex', p: 2 }}>
-        {selectedDevice && selectedDevice.data && (
-          <Box sx={{ mr: 4 }}>
-            <DeviceStatus
-              deviceId={selectedDevice.id}
-              data={selectedDevice.data}
-              onSelect={() => {}} 
-            />
-          </Box>
-        )}
-        <Charts selectedDevice={selectedDevice} />
-      </Box>
-
-      <Grid container spacing={2} sx={{ p: 2 }}>
-        {devices.map((device) => (
-          <Grid item key={device.id}>
-            <DeviceStatus
-              deviceId={device.id}
-              data={device.data}
-              onSelect={(id) => setSelectedDeviceId(id)}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginForm setToken={setToken} />} />
+        <Route path="/login" element={<LoginForm setToken={setToken} />} />
+        <Route path="/register" element={<SignUpForm />} />
+        <Route
+          path="/dashboard"
+          element={
+            !token || isExpired(token) ? (
+              <Navigate replace to="/login" />
+            ) : (
+              <Dashboard />
+            )
+          }
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+        <Route
+  path="/admin"
+  element={
+    token && !isExpired(token) && isAdmin(token) ? (
+      <AdminPanel />
+    ) : (
+      <Navigate replace to="/dashboard" />
+    )
+  }
+/>
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
+
+
+function isAdmin(token: string | null): boolean {
+  if (!token) return false;
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.role === "admin" || decoded.isAdmin === true;
+  } catch {
+    return false;
+  }
+}
+
 
 export default App;

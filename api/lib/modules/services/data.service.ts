@@ -44,18 +44,31 @@ public async get(deviceId: number) {
             { __v: 0, _id: 0 }
           ).limit(1).sort({ $natural: -1 });
           if (latestEntry.length) {
-            latestData.push(latestEntry[0]);
+            latestData.push({
+                id: i,
+                data: {
+                  temperature: latestEntry[0].temperature,
+                  pressure: latestEntry[0].pressure,
+                  humidity: latestEntry[0].humidity
+                }
+            });
           } else {
-            latestData.push({ deviceId: i });
+            latestData.push({
+              id: i,
+              data: null
+            });
           }
         } catch (error) {
-          console.error(`Błąd podczas pobierania danych dla urządzenia ${i}: ${error.message}`);
-          latestData.push({ deviceId: i, error: error.message });
+          latestData.push({
+            id: i,
+            data: null
+          });
         }
       })
     );
     return latestData;
-  }
+}
+
 
   public async deleteData(deviceId: number) {
     try {
@@ -73,6 +86,23 @@ public async get(deviceId: number) {
     //console.error('Błąd podczas usuwania wszystkich danych:', error);
     throw new Error('Błąd podczas usuwania wszystkich danych');
   }
+}
+
+public async deleteReadingsInRange(deviceId: number, from: Date, to: Date) {
+    return await DataModel.deleteMany({
+        deviceId,
+        readingDate: { $gte: from, $lte: to }
+    });
+}
+public async getLastReadingForDevice(deviceId: number) {
+    return await DataModel.findOne({ deviceId }).sort({ readingDate: -1 }).select('readingDate');
+}
+
+public async getAllFromDate(fromDate: Date) {
+  return await DataModel.find(
+    { readingDate: { $gte: fromDate } },
+    { __v: 0, _id: 0 }
+  ).sort({ readingDate: 1 });
 }
 
 }
